@@ -170,6 +170,7 @@ class Validate(Bin):
         if module == 'tcex':
             try:
                 del sys.modules['tcex']
+                del sys.modules['akamai']
             except AttributeError:
                 pass
 

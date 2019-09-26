@@ -166,6 +166,7 @@ class Validate(Bin):
         Returns:
             bool: True if the module can be imported, False otherwise.
         """
+        print('getting here with module: ', module)
         if module == 'tcex':
             try:
                 del sys.modules['tcex']
@@ -175,16 +176,20 @@ class Validate(Bin):
         # TODO: if possible, update to a cleaner method that doesn't require importing the module
         # and running inline code.
         try:
+            print('attempting to import module')
             imported_module = importlib.import_module(module)
+            print('attempting to get module path')
             module_path = imported_module.__path__
         except (AttributeError, ImportError):
             return False
 
+        print('module path: ', module_path)
         if module_path is None:
             return False
 
         for m_path in module_path:
             # if dist-packages|site-packages in module_path the import doesn't count
+            print('m_path: ', m_path)
             if 'dist-packages' in m_path:
                 return False
             if 'site-packages' in m_path:
